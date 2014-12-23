@@ -4,9 +4,26 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
     title= title
-    block css
+    block css<% if (options.bootstrap) { %>
+      link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')<% } %>
       link(rel='stylesheet', href='/css/style.css')
     block js
       script(src='http://localhost:35729/livereload.js')
-  body
-    block content
+  body<% if (options.bootstrap) { %>
+    div.navbar.navbar-inverse.navbar-fixed-top
+      div.container
+        div.navbar-header
+          a.navbar-brand(href='/') <%= appname %>
+        div.navbar-header
+          ul.nav.navbar-nav
+            li
+              a(href='#') Option 1
+            li
+              a(href='#') Option 2          
+    div.container
+      block content    
+  <% } else { %>
+    block content<% } %>
+    block js-footer<% if (options.bootstrap) { %>
+      script(src='/components/jquery/dist/jquery.min.js')
+      script(src='/components/bootstrap/dist/js/bootstrap.min.js')<% } %>

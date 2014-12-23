@@ -85,6 +85,23 @@ ExpressGenerator.prototype.promptDatabase = function () {
   }.bind(this));
 };
 
+ExpressGenerator.prototype.promptBootstrap = function () {
+  if(this.options.bootstrap || !this.options.mvc) {
+    return true;
+  }
+
+  var done = this.async();
+  var prompt = [{
+    type: 'confirm',
+    name: 'bootstrap',
+    message: 'Setup Bootstrap?'
+  }];
+  this.prompt(prompt,function(response) {
+    this.options.bootstrap = response.bootstrap;
+    done();
+  }.bind(this));
+};
+
 ExpressGenerator.prototype.buildEnv = function buildEnv() {
   this.sourceRoot(path.join(__dirname, 'templates', 'common'));
   this.expandFiles('**', { cwd: this.sourceRoot() }).map(function(file) {
@@ -102,6 +119,13 @@ ExpressGenerator.prototype.buildEnv = function buildEnv() {
 
   var views = this.options.viewEngine;
   this.sourceRoot(path.join(__dirname, 'templates', 'views', views));
+
+  if(views === 'EJS') {
+    this.expandFiles('**', { cwd: this.sourceRoot() }).map(function(file) {
+        this.template(file, file.replace(/^_/, ''));
+    }, this);
+  }
+  
   if (this.options.mvc) {
     this.directory('.', 'app/views');
   } else {

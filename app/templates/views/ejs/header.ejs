@@ -3,8 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
-  <title><%-title %></title>
+  <title><%= "<"+"%-title %"+">" %></title>
+  <% if(options.bootstrap) { %>
+  <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+  <% } %>
   <link rel="stylesheet" href="/css/style.css">
   <script src="http://localhost:35729/livereload.js"></script>
 </head>
 <body>
+<% if(options.bootstrap) { %>
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header"><a href="/" class="navbar-brand"><%= appname %></a></div>
+		<div class="navbar-header">
+			<ul class="nav navbar-nav">
+				<li><a href="#">Option 1</a></li>
+				<li><a href="#">Option 2</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="container">
+<% } %>
